@@ -63,4 +63,5 @@ ENV PATH="/scripts:/venv/bin:$PATH"
 USER duser
 
 # Especifica o arquivo de script principal que será executado ao iniciar o contêiner.
-ENTRYPOINT ["/scripts/commands.sh"]
+# ENTRYPOINT ["/scripts/commands.sh"]
+CMD ["commands.sh"]
