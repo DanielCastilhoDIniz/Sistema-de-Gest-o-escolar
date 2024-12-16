@@ -19,7 +19,7 @@ jobs:
           DATABASE_URL=postgres://user:password@psql/db
           API_KEY=${{ secrets.API_KEY }}
           SECRET_KEY=${{ secrets.SECRET_KEY }}
-          DEBUG=True
+          DEBUG=0
           EOF
 
       - name: Subir serviços com Docker Compose
