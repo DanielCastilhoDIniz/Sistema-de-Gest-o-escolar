@@ -28,9 +28,7 @@ jobs:
       - name: Run Tests
         run: docker compose run --rm sgeapp sh -c "
           python /sgeapp/manage.py wait_for_db &&
-          python /sgeapp/manage.py test
-        "
-
+          python /sgeapp/manage.py test"
       - name: Run Lint
         run: docker compose run --rm sgeapp sh -c "flake8"
 
