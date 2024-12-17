@@ -1,5 +1,5 @@
 ---
-nname: Checks
+name: Checks
 
 on: [push]
 
