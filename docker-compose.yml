@@ -12,7 +12,7 @@ services:
       - ./data/web/static:/data/web/static/
       - ./data/web/media:/data/web/media/
     env_file:
-      - ./dotenv_files/.env
+      - ./dotenv_files/.env:/sgeapp/.env 
     depends_on:
       - psql
   psql:
