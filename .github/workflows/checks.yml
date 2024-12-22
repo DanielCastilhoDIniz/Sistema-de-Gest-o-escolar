@@ -15,6 +15,16 @@
           with:
             username: ${{ secrets.DOCKERHUB_USER }}
             password: ${{ secrets.DOCKERHUB_TOKEN }}
+             # Configura as variáveis de ambiente
+        
+        - name: Set Environment Variables
+          run: |
+            echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
+            echo "DB_USER=${{ secrets.DB_USER }}" >> .env
+            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+            echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
+            echo "DEBUG=${{ secrets.DEBUG }}" >> .env
+            
         - name: Checkout
           uses: actions/checkout@v2
         - name: Test

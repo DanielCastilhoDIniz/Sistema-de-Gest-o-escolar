@@ -22,6 +22,8 @@ DATA_DIR = BASE_DIR.parent / 'data' / 'web'
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY', 'change-me')
+if not SECRET_KEY:
+    raise ValueError("A SECRET_KEY não está definida no ambiente.")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # buscar variaveis de ambientes ver dotenv_files
@@ -81,11 +83,11 @@ WSGI_APPLICATION = 'sgeapp.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': os.getenv('DB_ENGINE', 'change-me'),
-        'NAME': os.getenv('POSTGRES_DB', 'change-me'),
-        'USER': os.getenv('POSTGRES_USER', 'change-me'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'change-me'),
-        'HOST': os.getenv('POSTGRES_HOST', 'change-me'),
-        'PORT': os.getenv('POSTGRES_PORT', 'change-me'),
+        'NAME': os.getenv('DB_NAME', 'change-me'),
+        'USER': os.getenv('DB_USER', 'change-me'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'change-me'),
+        'HOST': os.getenv('DB_HOST', 'change-me'),
+        'PORT': os.getenv('DB_PORT', 'change-me'),
     }
 }
 
