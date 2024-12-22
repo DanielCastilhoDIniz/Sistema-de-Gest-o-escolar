@@ -11,7 +11,6 @@ services:
       - ./sgeapp:/sgeapp
       - ./data/web/static:/data/web/static/
       - ./data/web/media:/data/web/media/
-      - ./dotenv_files/.env:/sgeapp/.env
     env_file:
       - ./dotenv_files/.env
     depends_on:
