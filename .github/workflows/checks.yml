@@ -17,19 +17,25 @@
             password: ${{ secrets.DOCKERHUB_TOKEN }}
              # Configura as variáveis de ambiente
         
-        - name: Set environment variables for Docker Compose
+        - name: Export Secrets as Environment Variables
           run: |
-            mkdir -p dotenv_files
-            echo "DB_NAME=${{ secrets.DB_NAME }}" >> dotenv_files/.env
-            echo "DB_USER=${{ secrets.DB_USER }}" >> dotenv_files/.env
-            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> dotenv_files/.env
-            echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> dotenv_files/.env
-            echo "DEBUG=${{ secrets.DEBUG }}" >> dotenv_files/.env
-      
+            echo "DB_NAME=${{ secrets.DB_NAME }}" >> $GITHUB_ENV
+            echo "DB_USER=${{ secrets.DB_USER }}" >> $GITHUB_ENV
+            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
+            echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> $GITHUB_ENV
+            echo "DEBUG=${{ secrets.DEBUG }}" >> $GITHUB_ENV
+  
 
         - name: Checkout
           uses: actions/checkout@v2
         - name: Test
-          run: docker compose run --rm sgeapp sh -c "python manage.py wait_for_db && python manage.py test"
+          run: | 
+            docker compose run --rm \
+            -e DB_NAME=${{ secrets.DB_NAME }} \
+            -e DB_USER=${{ secrets.DB_USER }} \
+            -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
+            -e SECRET_KEY=${{ secrets.SECRET_KEY }} \
+            -e DEBUG=${{ secrets.DEBUG }} \
+            sgeapp sh -c "python manage.py wait_for_db && python manage.py test"
         - name: Lint
           run: docker compose run --rm sgeapp sh -c "flake8"
