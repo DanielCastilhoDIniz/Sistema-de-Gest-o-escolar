@@ -17,13 +17,14 @@
             password: ${{ secrets.DOCKERHUB_TOKEN }}
              # Configura as variáveis de ambiente
         
-        - name: Set Environment Variables
+        - name: Set environment variables for Docker Compose
           run: |
-            echo "DB_NAME=${{ secrets.DB_NAME }}" >> $GITHUB_ENV
-            echo "DB_USER=${{ secrets.DB_USER }}" >> $GITHUB_ENV
-            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
-            echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> $GITHUB_ENV
-            echo "DEBUG=${{ secrets.DEBUG }}" >> $GITHUB_ENV
+            echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
+            echo "DB_USER=${{ secrets.DB_USER }}" >> .env
+            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+            echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
+            echo "DEBUG=${{ secrets.DEBUG }}" >> .env
+      
 
         - name: Checkout
           uses: actions/checkout@v2
