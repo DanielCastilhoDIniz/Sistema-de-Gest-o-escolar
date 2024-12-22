@@ -19,11 +19,12 @@
         
         - name: Set environment variables for Docker Compose
           run: |
-            echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
-            echo "DB_USER=${{ secrets.DB_USER }}" >> .env
-            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
-            echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
-            echo "DEBUG=${{ secrets.DEBUG }}" >> .env
+            mkdir -p dotenv_files
+            echo "DB_NAME=${{ secrets.DB_NAME }}" >> dotenv_files/.env
+            echo "DB_USER=${{ secrets.DB_USER }}" >> dotenv_files/.env
+            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> dotenv_files/.env
+            echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> dotenv_files/.env
+            echo "DEBUG=${{ secrets.DEBUG }}" >> dotenv_files/.env
       
 
         - name: Checkout
