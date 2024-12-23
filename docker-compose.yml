@@ -11,14 +11,8 @@ services:
       - ./sgeapp:/sgeapp
       - ./data/web/static:/data/web/static/
       - ./data/web/media:/data/web/media/
-      - - .env:/sgeapp/.env 
     env_file:
-     environment:
-      - DB_NAME=${DB_NAME}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - SECRET_KEY=${SECRET_KEY}
-      - DEBUG=${DEBUG}
+      - ./dotenv_files/.env
     depends_on:
       - psql
   psql:
