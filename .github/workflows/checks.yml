@@ -50,7 +50,8 @@
               --build-arg DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
               --build-arg SECRET_KEY=${{ secrets.SECRET_KEY }} \
               --tag $DOCKER_IMAGE .
-
+          env:
+            DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USER }}/sgeapp:latest
 
     test:
       name: Run Tests
