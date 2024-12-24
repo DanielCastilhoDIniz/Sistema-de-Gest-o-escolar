@@ -45,11 +45,12 @@
         - name: Build Docker image
           run: |
             docker build \
-            --build-arg DB_NAME=${{ secrets.DB_NAME }} \
-            --build-arg DB_USER=${{ secrets.DB_USER }} \
-            --build-arg DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
-            --build-arg SECRET_KEY=${{ secrets.SECRET_KEY }} \
-            --tag $DOCKER_IMAGE .
+              --build-arg DB_NAME=${{ secrets.DB_NAME }} \
+              --build-arg DB_USER=${{ secrets.DB_USER }} \
+              --build-arg DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
+              --build-arg SECRET_KEY=${{ secrets.SECRET_KEY }} \
+              --tag $DOCKER_IMAGE .
+
 
     test:
       name: Run Tests
