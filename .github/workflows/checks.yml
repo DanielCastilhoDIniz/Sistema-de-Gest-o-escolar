@@ -49,7 +49,7 @@
               --build-arg DB_USER=${{ secrets.DB_USER }} \
               --build-arg DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
               --build-arg SECRET_KEY=${{ secrets.SECRET_KEY }} \
-              --tag $DOCKER_IMAGE .
+
           env:
             DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USER }}/sgeapp:latest
 
