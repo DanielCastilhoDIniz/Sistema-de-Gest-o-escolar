@@ -30,7 +30,7 @@
 
         # Configuração do Docker Buildx
         - name: Set up Docker Buildx
-          uses: docker/setup-buildx-action@v1
+          uses: docker/setup-buildx-action@v3
 
         # Cache das camadas Docker
         - name: Cache Docker layers
@@ -70,7 +70,7 @@
       steps:
         # Checkout o código do repositório
         - name: Checkout code
-          uses: actions/checkout@v2
+          uses: actions/checkout@v3
 
         # Rodar testes dentro do Docker
         - name: Run tests
