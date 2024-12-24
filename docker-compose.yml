@@ -11,12 +11,9 @@ services:
       - ./sgeapp:/sgeapp
       - ./data/web/static:/data/web/static/
       - ./data/web/media:/data/web/media/
-    environment:
-      - DB_HOST=db
-      - DB_NAME=devdb
-      - DB_USER=devuser
-      - DB_PASS=changeme
-      - DEBUG=1
+      - ./dotenv_files/.env:/sgeapp/.env
+    env_file:
+      - ./dotenv_files/.env
     depends_on:
       - psql
   psql:

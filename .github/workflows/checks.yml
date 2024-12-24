@@ -1,24 +1,113 @@
 ---
-  name: Checks
-  
-  on: [push]
-  
+  name: CI/CD Pipeline
+
+  on:
+    push:
+      branches:
+        - main
+    pull_request:
+      branches:
+        - main
+
+  env:
+    DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USER }}/sgeapp:latest
+
   jobs:
-    test-lint:
-      name: Test and Lint
-      runs-on: ubuntu-20.04
+    setup-build:
+      name: Setup and Build
+      runs-on: ubuntu-latest
       steps:
-        - uses: actions/checkout@v4.2.2
-        
+        # Checkout o código do repositório
+        - name: Checkout code
+          uses: actions/checkout@v2
+
+        # Login no Docker Hub
         - name: Login to Docker Hub
-          uses: docker/login-action@v3.3.0
+          uses: docker/login-action@v2
           with:
             username: ${{ secrets.DOCKERHUB_USER }}
-            password: ${{ secrets.DOCKERHUB_TOKEN }} 
+            password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-        - name: Checkout
+        # Configuração do Docker Buildx
+        - name: Set up Docker Buildx
+          uses: docker/setup-buildx-action@v1
+
+        # Cache das camadas Docker
+        - name: Cache Docker layers
+          uses: actions/cache@v2
+          with:
+            path: /tmp/.buildx-cache
+            key: ${{ runner.os }}-buildx-${{ github.sha }}
+            restore-keys: |
+              ${{ runner.os }}-buildx-
+
+        # Build da imagem Docker
+        - name: Build Docker image
+          run: |
+            docker build \
+            --build-arg DB_NAME=${{ secrets.DB_NAME }} \
+            --build-arg DB_USER=${{ secrets.DB_USER }} \
+            --build-arg DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
+            --build-arg SECRET_KEY=${{ secrets.SECRET_KEY }} \
+            --tag $DOCKER_IMAGE .
+
+    test:
+      name: Run Tests
+      runs-on: ubuntu-latest
+      needs: setup-build
+      services:
+        postgres:
+          image: postgres:13-alpine
+          env:
+            POSTGRES_USER: ${{ secrets.DB_USER }}
+            POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
+            POSTGRES_DB: ${{ secrets.DB_NAME }}
+          ports:
+            - 5432:5432
+      steps:
+        # Checkout o código do repositório
+        - name: Checkout code
           uses: actions/checkout@v2
-        - name: Test
-          run: docker compose run --rm app sh -c "python manage.py wait_for_db && python manage.py test"
-        - name: Lint
-          run: docker compose run --rm sgeapp sh -c "flake8"
+
+        # Rodar testes dentro do Docker
+        - name: Run tests
+          run: |
+            docker compose run --rm sgeapp sh -c "
+              python manage.py wait_for_db &&
+              python manage.py test
+            "
+
+    lint:
+      name: Lint Code
+      runs-on: ubuntu-latest
+      needs: setup-build
+      steps:
+        # Checkout o código do repositório
+        - name: Checkout code
+          uses: actions/checkout@v2
+
+        # Análise de código com flake8
+        - name: Run flake8
+          run: |
+            docker compose run --rm sgeapp flake8
+
+    # deploy:
+    #   name: Deploy to Docker Hub
+    #   runs-on: ubuntu-latest
+    #   needs: [setup-build, test, lint]
+    #   steps:
+    #     # Checkout o código do repositório
+    #     - name: Checkout code
+    #       uses: actions/checkout@v2
+
+    #     # Login no Docker Hub
+    #     - name: Login to Docker Hub
+    #       uses: docker/login-action@v2
+    #       with:
+    #         username: ${{ secrets.DOCKERHUB_USER }}
+    #         password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    #     # Push da imagem para o Docker Hub
+    #     - name: Push Docker image
+    #       run: |
+    #         docker push $DOCKER_IMAGE
