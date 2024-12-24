@@ -44,16 +44,16 @@
         # Build da imagem Docker
         - name: Build Docker image
           run: |
+            ls -la # Lista os arquivos para verificar o contexto
             docker build \
               --build-arg DB_NAME=${{ secrets.DB_NAME }} \
               --build-arg DB_USER=${{ secrets.DB_USER }} \
               --build-arg DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
               --build-arg SECRET_KEY=${{ secrets.SECRET_KEY }} \
-              -t ${{ env.DOCKER_IMAGE }} \ 
-              .
+              --tag $DOCKER_IMAGE .
           env:
             DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USER }}/sgeapp:latest
-
+        
     test:
       name: Run Tests
       runs-on: ubuntu-latest
