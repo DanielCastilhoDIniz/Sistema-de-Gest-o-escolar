@@ -19,7 +19,7 @@ jobs:
     steps:
       # Checkout o código do repositório
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       # Login no Docker Hub
       - name: Login to Docker Hub
@@ -34,7 +34,7 @@ jobs:
 
       # Cache das camadas Docker
       - name: Cache Docker layers
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx-${{ github.sha }}
@@ -62,7 +62,7 @@ jobs:
     steps:
       # Checkout o código do repositório
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       # Rodar testes dentro do Docker
       - name: Run tests
@@ -79,7 +79,7 @@ jobs:
     steps:
       # Checkout o código do repositório
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # Análise de código com flake8
       - name: Run flake8
