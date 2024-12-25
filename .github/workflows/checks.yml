@@ -60,17 +60,19 @@ jobs:
         ports:
           - 5432:5432
     steps:
-
-      - name: Copy .env file
-        run: |
-          echo "DATABASE_NAME=${{ secrets.DATABASE_NAME }}" >> dotenv_files/.env
-          echo "DATABASE_USER=${{ secrets.DATABASE_USER }}" >> dotenv_files/.env
-          echo "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}" >> dotenv_files/.env
-          echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> dotenv_files/.env    
-
       # Checkout o código do repositório
       - name: Checkout code
         uses: actions/checkout@v4
+
+      # Verificar se o arquivo .env existe ou criar dinamicamente
+      - name: Check or create .env file
+        run: |
+          if [ ! -f dotenv_files/.env ]; then
+            echo "DATABASE_NAME=${{ secrets.DATABASE_NAME }}" >> dotenv_files/.env
+            echo "DATABASE_USER=${{ secrets.DATABASE_USER }}" >> dotenv_files/.env
+            echo "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}" >> dotenv_files/.env
+            echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> dotenv_files/.env
+          fi        
 
       # Rodar testes dentro do Docker
       - name: Run tests
