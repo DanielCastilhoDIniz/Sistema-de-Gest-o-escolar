@@ -92,14 +92,14 @@ jobs:
 
        # Análise de código com flake8
       - name: Run flake8
-       run: |
-         docker compose run --rm sgeapp sh -c "
-           DATABASE_NAME=${{ secrets.DATABASE_NAME }} \
-           DATABASE_USER=${{ secrets.DATABASE_USER }} \
-           DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} \
-           SECRET_KEY=${{ secrets.SECRET_KEY }} \
-           flake8
-         "
+        run: |
+          docker compose run --rm sgeapp sh -c "
+            DATABASE_NAME=${{ secrets.DATABASE_NAME }} \
+            DATABASE_USER=${{ secrets.DATABASE_USER }} \
+            DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} \
+            SECRET_KEY=${{ secrets.SECRET_KEY }} \
+            flake8
+              "
 
   deploy:
     name: Deploy to Docker Hub
