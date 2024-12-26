@@ -32,6 +32,18 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+     # Verificar ou criar o arquivo .env
+      - name: Check or Create .env file
+        run: |
+            if [ ! -f dotenv_files/.env ]; then
+              echo "DATABASE_NAME=${{ secrets.DATABASE_NAME }}" > dotenv_files/.env
+              echo "DATABASE_USER=${{ secrets.DATABASE_USER }}" >> dotenv_files/.env
+              echo "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}" >> dotenv_files/.env
+              echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> dotenv_files/.env
+            else
+              echo ".env file found, skipping creation."
+            fi
+
       # Cache das camadas Docker
       - name: Cache Docker layers
         uses: actions/cache@v3
@@ -64,15 +76,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Verificar se o arquivo .env existe ou criar dinamicamente
-      - name: Check or create .env file
+      # Reutilizar o .env criado
+      - name: Load Environment Variables
         run: |
-          if [ ! -f dotenv_files/.env ]; then
-            echo "DATABASE_NAME=${{ secrets.DATABASE_NAME }}" >> dotenv_files/.env
-            echo "DATABASE_USER=${{ secrets.DATABASE_USER }}" >> dotenv_files/.env
-            echo "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}" >> dotenv_files/.env
-            echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> dotenv_files/.env
-          fi        
+          export $(grep -v '^#' dotenv_files/.env | xargs)      
 
       # Rodar testes dentro do Docker
       - name: Run tests
@@ -91,14 +98,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Check or create .env file
+      # Reutilizar o .env criado
+      - name: Load Environment Variables
         run: |
-          if [ ! -f dotenv_files/.env ]; then
-            echo "DATABASE_NAME=${{ secrets.DATABASE_NAME }}" >> dotenv_files/.env
-            echo "DATABASE_USER=${{ secrets.DATABASE_USER }}" >> dotenv_files/.env
-            echo "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}" >> dotenv_files/.env
-            echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> dotenv_files/.env
-          fi        
+          export $(grep -v '^#' dotenv_files/.env | xargs)     
 
 
       # Análise de código com flake8

@@ -18,8 +18,8 @@ class CommandTest(SimpleTestCase):
     """Tests commands"""
 
     def test_wait_for_db_ready(self, patched_check):
-        """ Testa se o comando funciona quando 
-        o banco de dados está disponível """
+        """ Testa se o comando funciona quando
+            o banco de dados está disponível """
         patched_check.return_value = True
 
         call_command('wait_for_db')
