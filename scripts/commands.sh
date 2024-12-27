@@ -1,17 +1,14 @@
 #!/bin/sh
 
-# O shell irá encerrar a execução do script quando um comando falhar
-# set -e
 
-# while ! nc -z $POSTGRES_HOST $POSTGRES_PORT; do
-#   echo "🟡 Waiting for Postgres Database Startup ($POSTGRES_HOST $POSTGRES_PORT) ..."
-#   sleep 2
-# done
-
-# echo "✅ Postgres Database Started Successfully ($POSTGRES_HOST:$POSTGRES_PORT)"
-
+echo "Iniciando o processo de espera pelo banco de dados..."
 python manage.py wait_for_db
-python manage.py collectstatic --noinput
-python manage.py makemigrations --noinput
+
+echo "Aplicando migrações..."
 python manage.py migrate --noinput
+
+echo "Coletando arquivos estáticos..."
+python manage.py collectstatic --noinput
+
+echo "Iniciando o servidor..."
 python manage.py runserver 0.0.0.0:8000

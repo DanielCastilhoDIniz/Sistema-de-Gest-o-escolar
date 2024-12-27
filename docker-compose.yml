@@ -1,6 +1,6 @@
 services:
   sgeapp:
-    container_name: sgeapp
+    container_name: SegApp
     build:
       context: .
       args:
@@ -23,7 +23,3 @@ services:
       - ./data/postgres/data:/var/lib/postgresql/data
     env_file:
       - ./dotenv_files/.env
-    environment:
-      POSTGRES_USER: ${DATABASE_USER}
-      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
-      POSTGRES_DB: ${DATABASE_NAME}

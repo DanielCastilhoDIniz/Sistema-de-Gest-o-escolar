@@ -83,11 +83,11 @@ WSGI_APPLICATION = 'sgeapp.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': os.getenv('DB_ENGINE', 'change-me'),
-        'NAME': os.getenv('DB_NAME', 'change-me'),
-        'USER': os.getenv('DB_USER', 'change-me'),
-        'PASSWORD': os.getenv('DB_PASSWORD', 'change-me'),
-        'HOST': os.getenv('DB_HOST', 'change-me'),
-        'PORT': os.getenv('DB_PORT', 'change-me'),
+        'NAME': os.getenv('POSTGRES_DB', 'change-me'),
+        'USER': os.getenv('POSTGRES_USER', 'change-me'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'change-me'),
+        'HOST': os.getenv('POSTGRES_HOST', 'change-me'),
+        'PORT': os.getenv('POSTGRES_PORT', 'change-me'),
     }
 }
 
@@ -137,4 +137,4 @@ MEDIA_ROOT = DATA_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'core.User'
+# AUTH_USER_MODEL = 'core.User'

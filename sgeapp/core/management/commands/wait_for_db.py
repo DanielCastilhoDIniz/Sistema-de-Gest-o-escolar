@@ -12,7 +12,7 @@ from django.core.management.base import BaseCommand
 class Command(BaseCommand):
     """ Django command to wait for the database. """
     def handle(self, *args, **options):
-        self.stdout.write('Waiting for database...')
+        self.stdout.write(' ⏳ Waiting for database...')
         db_up = False
         while db_up is False:
             try:
@@ -20,7 +20,7 @@ class Command(BaseCommand):
                 db_up = True
             except (Psycopg2OpError, OperationalError):
                 self.stdout.write('🟡 Database unavailable,\
-                                  waiting 1 second...')
+                                  ⏳ waiting 1 second...')
                 time.sleep(1)
         self.stdout.write(self.style.SUCCESS('✅ Database available!\
         ✅ Postgres Database Started Successfully'))
