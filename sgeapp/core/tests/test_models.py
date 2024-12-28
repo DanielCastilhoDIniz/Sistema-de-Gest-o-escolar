@@ -4,6 +4,7 @@ Tests for models.
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 
+
 class ModelTests(TestCase):
     """Test models."""
 
@@ -15,9 +16,9 @@ class ModelTests(TestCase):
             email=email,
             password=password,
         )
-
         self.assertEqual(user.email, email, f"Email {email} não foi salvo corretamente.")
-        self.assertTrue(user.check_password(password),"A senha não foi verificada corretamente.")
+        self.assertTrue(user.check_password(password), \
+                        "A senha não foi verificada corretamente.")
 
     def test_new_user_email_normalized(self):
         """Test email is normalized for new users."""
