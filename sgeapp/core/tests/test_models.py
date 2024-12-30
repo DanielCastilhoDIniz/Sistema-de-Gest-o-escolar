@@ -17,7 +17,7 @@ class ModelTests(TestCase):
             password=password,
         )
         self.assertEqual(user.email, email, f"Email {email} não foi salvo corretamente.")
-        self.assertTrue(user.check_password(password), \
+        self.assertTrue(user.check_password(password),
                         "A senha não foi verificada corretamente.")
 
     def test_new_user_email_normalized(self):
