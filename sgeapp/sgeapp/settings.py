@@ -26,7 +26,7 @@ if not SECRET_KEY:
     raise ValueError("A SECRET_KEY não está definida no ambiente.")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# buscar variaveis de ambientes ver dotenv_files
+# buscar variáveis de ambientes ver dotenv_files
 DEBUG = bool(int(os.getenv('DEBUG', 0)))
 
 ALLOWED_HOSTS = [
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'core',
     'rest_framework',
     'drf_spectacular',
+    'user',
 
 ]
 
